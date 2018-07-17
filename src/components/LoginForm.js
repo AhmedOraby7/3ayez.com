@@ -1,5 +1,10 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import firebase from 'firebase';
+
+import * as actions from '../actions';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -30,20 +35,10 @@ class LoginForm extends React.Component {
         const goingEmail = `${email}@3ayez.com`;
         firebase.auth().signInWithEmailAndPassword(goingEmail, password)
             .then(() => {
-                this.setState({
-                    success: "Successfully Logged in"
-                });
+                this.props.history.push('/home');
             })
             .catch(() => {
-                firebase.auth().createUserWithEmailAndPassword(goingEmail, password)
-                    .then(() => {
-                        this.setState({
-                            success: "Successfully Created New Account"
-                        })
-                    })
-                    .catch(() => {
-                        this.setState({ error: "Authentication Failed" });
-                    })
+                this.setState({ error: "Authentication Failed" });
             })
     }
 
@@ -77,4 +72,7 @@ class LoginForm extends React.Component {
     }
 }
 
-export default LoginForm;
+export default compose(
+    withRouter,
+    connect(null, actions),
+)(LoginForm);
