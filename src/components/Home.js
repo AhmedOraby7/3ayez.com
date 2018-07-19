@@ -63,7 +63,7 @@ class Home extends React.Component{
                         prop: "upc"
                     },
                     {
-                        name: "Username",
+                        name: "Price",
                         prop: "price"
                     },
                     {
